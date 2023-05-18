@@ -1,14 +1,15 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import pickle
 
-loc = r'E:\Mihir_Data\aa_06_ML_AI\Python_Tests\Flask'
-df=pd.read_csv(loc + '/Iris_Data.csv')
+loc = r'E:\Mihir_Data\aa_06_ML_AI\Python_Tests\Flask\Iris_dataset_test_v01'
+df=pd.read_csv('Iris_Data.csv')
 
 df.columns
 
-X= df[['SepalLength', 'sepalWidth', 'PetalLength', 'PetalWidth']]
-y= df['Species']
+X= df[['SepalLength', 'sepalWidth', 'PetalLength', 'PetalWidth']].values
+y= df['Species'].values
 
 from sklearn.model_selection import train_test_split
 X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.20,random_state=42)
@@ -27,3 +28,9 @@ y_test_hat=lr.predict(X_test)
 
 from sklearn.metrics import accuracy_score
 print(accuracy_score(y_test,y_test_hat)*100,'%')
+
+pickle.dump(lr,open('model.pkl','wb'))
+
+model = pickle.load(open('model.pkl', 'rb'))
+variety = model.predict([[0,0,0,0]])
+
